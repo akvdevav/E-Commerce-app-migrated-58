@@ -6,7 +6,9 @@ import org.springframework.cloud.gateway.server.mvc.handler.HandlerFunctions;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpStatus;
-import org.springframework.web.servlet.function.*;
+import org.springframework.web.servlet.function.RequestPredicates;
+import org.springframework.web.servlet.function.ServerResponse;
+import org.springframework.web.servlet.function.RouterFunction;
 
 import java.net.URI;
 
@@ -16,14 +18,14 @@ import static org.springframework.cloud.gateway.server.mvc.handler.GatewayRouter
 @Configuration
 public class Routes {
 
-        @Value("${product.service.url}")
-        private String productServiceUrl;
+    @Value("${product.service.url}")
+    private String productServiceUrl;
 
-        @Value("${order.service.url}")
-        private String orderServiceUrl;
+    @Value("${order.service.url}")
+    private String orderServiceUrl;
 
-        @Value("${inventory.service.url}")
-        private String inventoryServiceUrl;
+    @Value("${inventory.service.url}")
+    private String inventoryServiceUrl;
 
     @Bean
     public RouterFunction<ServerResponse> productServiceRoute() {

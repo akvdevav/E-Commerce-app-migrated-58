@@ -1,6 +1,6 @@
 package com.techie.microservices.notification.service;
 
-import com.techie.microservices.order.event.OrderPlacedEvent;
+import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
@@ -9,6 +9,10 @@ import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.mail.javamail.MimeMessagePreparator;
 import org.springframework.stereotype.Service;
 
+/**
+ * Service responsible for handling order placed events and sending email notifications.
+ * Listens to the {@code order-placed} RabbitMQ queue.
+ */
 @Service
 @RequiredArgsConstructor
 @Slf4j
@@ -43,5 +47,15 @@ public class NotificationService {
             log.error("Exception occured when sending mail: {}", e.getMessage());
             throw new RuntimeException("Exception occured when sending mail  ", e);
         }
+    }
+
+    /**
+     * Simplified representation of the order placed event.
+     * This inner class is used to avoid a direct dependency on the order service module.
+     */
+    @Data
+    public static class OrderPlacedEvent {
+        private String email;
+        private String orderNumber;
     }
 }
