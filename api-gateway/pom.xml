@@ -70,6 +70,13 @@
             <scope>runtime</scope>
         </dependency>
 
+        <!-- H2 (in‑memory fallback for CI) -->
+        <dependency>
+            <groupId>com.h2database</groupId>
+            <artifactId>h2</artifactId>
+            <scope>runtime</scope>
+        </dependency>
+
         <!-- RabbitMQ -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -113,6 +120,15 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+                <configuration>
+                    <jvmArguments>
+                        -Dspring.datasource.url=jdbc:h2:mem:testdb
+                        -Dspring.datasource.driverClassName=org.h2.Driver
+                        -Dspring.datasource.username=sa
+                        -Dspring.datasource.password=
+                        -Dspring.jpa.hibernate.ddl-auto=update
+                    </jvmArguments>
+                </configuration>
             </plugin>
         </plugins>
     </build>

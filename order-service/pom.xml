@@ -66,6 +66,13 @@
             <version>${postgresql.version}</version>
         </dependency>
 
+        <!-- H2 Embedded Database (fallback for local runs) -->
+        <dependency>
+            <groupId>com.h2database</groupId>
+            <artifactId>h2</artifactId>
+            <scope>runtime</scope>
+        </dependency>
+
         <!-- Flyway for database migrations (PostgreSQL) -->
         <dependency>
             <groupId>org.flywaydb</groupId>

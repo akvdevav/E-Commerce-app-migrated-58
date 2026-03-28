@@ -17,7 +17,7 @@ import org.springframework.context.annotation.Bean;
  * Configures RabbitMQ infrastructure (queue, exchange, binding) so that the
  * necessary messaging artifacts are created automatically at startup.
  */
-@SpringBootApplication
+@SpringBootApplication(scanBasePackages = "com.techie.microservices.notification")
 @EnableRabbit
 public class NotificationServiceApplication {
 
