@@ -7,7 +7,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>3.3.12</version>
+        <version>3.3.10</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
 
@@ -21,7 +21,6 @@
         <java.version>21</java.version>
         <spring-cloud.version>2023.0.5</spring-cloud.version>
         <postgresql.version>42.7.3</postgresql.version>
-        <mysql.connector.version>9.0.0</mysql.connector.version>
     </properties>
 
     <dependencyManagement>
@@ -63,13 +62,6 @@
             <groupId>org.postgresql</groupId>
             <artifactId>postgresql</artifactId>
             <version>${postgresql.version}</version>
-        </dependency>
-
-        <!-- MySQL Driver (required for legacy modules still using MySQL) -->
-        <dependency>
-            <groupId>com.mysql</groupId>
-            <artifactId>mysql-connector-j</artifactId>
-            <version>${mysql.connector.version}</version>
         </dependency>
 
         <!-- OpenFeign -->

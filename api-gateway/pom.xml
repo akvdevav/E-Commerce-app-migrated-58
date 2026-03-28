@@ -29,6 +29,12 @@
             <artifactId>spring-cloud-starter-gateway-mvc</artifactId>
         </dependency>
 
+        <!-- Spring Web (required for MVC gateway) -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+
         <!-- OpenAPI/Swagger UI -->
         <dependency>
             <groupId>org.springdoc</groupId>
@@ -44,7 +50,7 @@
         <!-- Resilience4j Circuit Breaker -->
         <dependency>
             <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-starter-circuitbreaker-resilience4j</artifactId>
+            <artifactId>spring-cloud-starter-circuitbreaker-resiliencej</artifactId>
         </dependency>
 
         <!-- Actuator -->

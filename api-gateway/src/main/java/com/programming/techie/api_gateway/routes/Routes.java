@@ -13,7 +13,7 @@ import org.springframework.web.servlet.function.RouterFunction;
 import java.net.URI;
 
 import static org.springframework.cloud.gateway.server.mvc.filter.FilterFunctions.setPath;
-import static org.springframework.cloud.gateway.server.mvc.handler.GatewayRouterFunctions.route;
+import static org.springframework.cloud.gateway.server.mvc.GatewayRouterFunctions.route;
 
 @Configuration
 public class Routes {

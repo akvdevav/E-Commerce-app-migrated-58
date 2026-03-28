@@ -13,13 +13,15 @@ public class OpenAPIConfig {
     @Bean
     public OpenAPI orderServiceAPI() {
         return new OpenAPI()
-                .info(new Info().title("Order Service API")
+                .info(new Info()
+                        .title("Order Service API")
                         .description("This is the REST API for Order Service")
                         .version("v0.0.1")
-                        .license(new License().name("Apache 2.0").url("http://springdoc.org")))
+                        .license(new License()
+                                .name("Apache 2.0")
+                                .url("http://springdoc.org")))
                 .externalDocs(new ExternalDocumentation()
                         .description("You can refer to the Order Service Wiki Documentation")
-                        .url("https://Order-service-dummy-url.com/docs")
-                );
+                        .url("https://Order-service-dummy-url.com/docs"));
     }
 }

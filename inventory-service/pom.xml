@@ -68,6 +68,13 @@
             <artifactId>postgresql</artifactId>
         </dependency>
 
+        <!-- In‑memory fallback DB (H2) – used when no external datasource is configured -->
+        <dependency>
+            <groupId>com.h2database</groupId>
+            <artifactId>h2</artifactId>
+            <scope>runtime</scope>
+        </dependency>
+
         <!-- Lombok (optional, compile‑time only) -->
         <dependency>
             <groupId>org.projectlombok</groupId>
