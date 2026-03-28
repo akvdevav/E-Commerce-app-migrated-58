@@ -3,7 +3,7 @@ package com.techie.microservices.notification.service;
 import com.techie.microservices.order.event.OrderPlacedEvent;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.kafka.annotation.KafkaListener;
+import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.mail.javamail.MimeMessagePreparator;
@@ -16,9 +16,9 @@ public class NotificationService {
 
     private final JavaMailSender javaMailSender;
 
-    @KafkaListener(topics = "order-placed")
+    @RabbitListener(queues = "order-placed")
     public void listen(OrderPlacedEvent orderPlacedEvent) {
-        log.info("Got message from order-place topic: {}", orderPlacedEvent);
+        log.info("Got message from order-placed queue: {}", orderPlacedEvent);
 
         // Logic to send email notification
         MimeMessagePreparator messagePreparator = mimeMessage -> {
