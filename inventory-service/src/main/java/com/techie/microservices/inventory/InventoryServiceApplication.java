@@ -7,7 +7,7 @@ import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.annotation.Bean;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
-import jakarta.sql.DataSource;
+import javax.sql.DataSource;
 
 @SpringBootApplication(exclude = DataSourceAutoConfiguration.class)
 @EnableCaching
