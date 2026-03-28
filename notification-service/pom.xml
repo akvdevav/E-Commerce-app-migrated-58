@@ -30,11 +30,12 @@
     </dependencyManagement>
 
     <modules>
-        <module>api-gateway</module>
-        <module>inventory-service</module>
-        <module>notification-service</module>
-        <module>order-service</module>
-        <module>product-service</module>
+        <!-- Adjusted module paths to be relative to this pom's location -->
+        <module>../api-gateway</module>
+        <module>../inventory-service</module>
+        <module>../notification-service</module>
+        <module>../order-service</module>
+        <module>../product-service</module>
     </modules>
 
     <build>
