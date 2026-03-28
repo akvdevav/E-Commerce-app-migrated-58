@@ -17,15 +17,17 @@ public interface InventoryRepository extends JpaRepository<Inventory, Long> {
     // This interface will automatically provide CRUD operations for the Inventory entity
     // You can add custom query methods if needed
 
+    @Transactional
     @Modifying(clearAutomatically = true, flushAutomatically = true)
     @Query("UPDATE Inventory i SET i.quantity = i.quantity + :quantityToAdd WHERE i.skuCode = :skuCode")
     int increaseInventoryQuantity(
-        @Param("skuCode") String skuCode, 
+        @Param("skuCode") String skuCode,
         @Param("quantityToAdd") Integer quantityToAdd
     );
 
     Optional<Inventory> findBySkuCode(String skuCode);
 
+    @Transactional
     @Modifying(clearAutomatically = true, flushAutomatically = true)
     @Query("UPDATE Inventory i SET i.quantity = i.quantity - :quantityToDecrease WHERE i.skuCode = :skuCode AND i.quantity >= :quantityToDecrease")
     int decreaseInventoryQuantity(

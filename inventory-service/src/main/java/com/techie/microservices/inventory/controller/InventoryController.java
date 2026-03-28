@@ -24,16 +24,16 @@ public class InventoryController {
     }
 
     @PostMapping("/updateQuantity")
-public ResponseEntity<InventoryResponse> upsertInventory(@RequestBody InventoryRequest request) {
-    boolean isNew = !inventoryRepository.findBySkuCode(request.skuCode()).isPresent();
-    InventoryResponse response = inventoryService.upsertInventory(request);
-    
-    return isNew 
-        ? ResponseEntity.status(HttpStatus.CREATED).body(response)
-        : ResponseEntity.ok(response);
-}
+    public ResponseEntity<InventoryResponse> upsertInventory(@RequestBody InventoryRequest request) {
+        boolean isNew = !inventoryRepository.findBySkuCode(request.skuCode()).isPresent();
+        InventoryResponse response = inventoryService.upsertInventory(request);
 
-@GetMapping("/{skuCode}")
+        return isNew
+                ? ResponseEntity.status(HttpStatus.CREATED).body(response)
+                : ResponseEntity.ok(response);
+    }
+
+    @GetMapping("/{skuCode}")
     public ResponseEntity<InventoryResponse> getInventoryBySkuCode(@PathVariable String skuCode) {
         return ResponseEntity.ok(inventoryService.getInventoryBySkuCode(skuCode));
     }

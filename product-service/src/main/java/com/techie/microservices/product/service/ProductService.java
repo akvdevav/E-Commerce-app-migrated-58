@@ -37,7 +37,7 @@ public class ProductService {
         InventoryResponse inventoryResponse = inventoryClient.upsertInventory(new InventoryRequest(productRequest.skuCode(), productRequest.quantity())).getBody();
         log.info("Product's inventory created: {}", inventoryResponse);
 
-//        assert inventoryResponse != null;
+        // assert inventoryResponse != null;
         return new ProductResponse(product.getId(),
                 product.getName(),
                 product.getDescription(),
@@ -47,7 +47,7 @@ public class ProductService {
 
     public List<ProductResponse> getAllProducts() {
         List<Product> productsList = productRepository.findAll();
-        for(Product product: productsList){
+        for (Product product : productsList) {
             System.out.println(product.getSkuCode());
         }
         return productsList

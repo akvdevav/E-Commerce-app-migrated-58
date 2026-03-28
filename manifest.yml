@@ -1,0 +1,61 @@
+---
+applications:
+- name: E-Commerce-app-modernized-api-gateway
+  memory: 1G
+  instances: 1
+  buildpacks:
+    - java_buildpack
+  path: api-gateway/target/*.jar
+  env:
+    JBP_CONFIG_OPEN_JDK_JRE: '{ jre: { version: 21.+ } }'
+    SPRING_PROFILES_ACTIVE: cloud
+
+- name: E-Commerce-app-modernized-inventory-service
+  memory: 1G
+  instances: 1
+  buildpacks:
+    - java_buildpack
+  path: inventory-service/target/*.jar
+  env:
+    JBP_CONFIG_OPEN_JDK_JRE: '{ jre: { version: 21.+ } }'
+    SPRING_PROFILES_ACTIVE: cloud
+  services:
+    - modernized-postgres
+
+- name: E-Commerce-app-modernized-notification-service
+  memory: 1G
+  instances: 1
+  buildpacks:
+    - java_buildpack
+  path: notification-service/target/*.jar
+  env:
+    JBP_CONFIG_OPEN_JDK_JRE: '{ jre: { version: 21.+ } }'
+    SPRING_PROFILES_ACTIVE: cloud
+  services:
+    - modernized-rabbitmq
+
+- name: E-Commerce-app-modernized-order-service
+  memory: 1G
+  instances: 1
+  buildpacks:
+    - java_buildpack
+  path: order-service/target/*.jar
+  env:
+    JBP_CONFIG_OPEN_JDK_JRE: '{ jre: { version: 21.+ } }'
+    SPRING_PROFILES_ACTIVE: cloud
+  services:
+    - modernized-postgres
+    - modernized-rabbitmq
+
+- name: E-Commerce-app-modernized-product-service
+  memory: 1G
+  instances: 1
+  buildpacks:
+    - java_buildpack
+  path: product-service/target/*.jar
+  env:
+    JBP_CONFIG_OPEN_JDK_JRE: '{ jre: { version: 21.+ } }'
+    SPRING_PROFILES_ACTIVE: cloud
+  services:
+    - modernized-postgres
+

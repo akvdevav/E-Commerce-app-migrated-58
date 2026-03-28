@@ -8,14 +8,12 @@ import com.techie.microservices.order.external.dto.InventoryResponse;
 import com.techie.microservices.order.model.Order;
 import com.techie.microservices.order.repository.OrderRepository;
 import lombok.RequiredArgsConstructor;
-
-import org.springframework.http.ResponseEntity;
-import org.springframework.kafka.core.KafkaTemplate;
-import org.springframework.stereotype.Service;
-
-import groovy.util.logging.Slf4j;
+import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
+import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Service;
 
 import java.util.UUID;
 
@@ -27,52 +25,52 @@ public class OrderService {
     private static final Logger log = LoggerFactory.getLogger(OrderService.class);
     private final OrderRepository orderRepository;
     private final InventoryClient inventoryClient;
-    private final KafkaTemplate<String, OrderPlacedEvent> kafkaTemplate;
+    private final RabbitTemplate rabbitTemplate;
 
     public boolean placeOrder(OrderRequest orderRequest) {
-    try {
-        var isProductInStock = inventoryClient.isInStock(orderRequest.skuCode(), orderRequest.quantity());
+        try {
+            var isProductInStock = inventoryClient.isInStock(orderRequest.skuCode(), orderRequest.quantity());
 
-        if (isProductInStock) {
-            Order order = new Order();
-            order.setOrderNumber(UUID.randomUUID().toString());
-            order.setPrice(orderRequest.price());
-            order.setQuantity(orderRequest.quantity());
-            order.setSkuCode(orderRequest.skuCode());
+            if (isProductInStock) {
+                Order order = new Order();
+                order.setOrderNumber(UUID.randomUUID().toString());
+                order.setPrice(orderRequest.price());
+                order.setQuantity(orderRequest.quantity());
+                order.setSkuCode(orderRequest.skuCode());
 
-            orderRepository.save(order);
+                orderRepository.save(order);
 
-            // Store the response and handle it
-            ResponseEntity<InventoryResponse> response = inventoryClient.decreaseInventory(
-                new InventoryRequest(orderRequest.skuCode(), orderRequest.quantity())
-            );
-
-            // Check if the response is successful
-            if (response.getStatusCode().is2xxSuccessful() && response.getBody() != null) {
-                InventoryResponse inventoryResponse = response.getBody();
-                log.info("Inventory updated - SkuCode: {}, Quantity: {}", 
-                    inventoryResponse.skuCode(), 
-                    inventoryResponse.quantity()
+                // Store the response and handle it
+                ResponseEntity<InventoryResponse> response = inventoryClient.decreaseInventory(
+                        new InventoryRequest(orderRequest.skuCode(), orderRequest.quantity())
                 );
 
-                    // Logic to send message to Kafka added here
-                OrderPlacedEvent orderPlacedEvent = new OrderPlacedEvent(order.getOrderNumber(), orderRequest.userDetails().email());
-                log.info("Start - Sending OrderPlacedEvent {} to Kafka topic order-placed", orderPlacedEvent);
-                kafkaTemplate.send("order-placed", orderPlacedEvent);
-                log.info("End - Sending OrderPlacedEvent {} to Kafka topic order-placed", orderPlacedEvent);
+                // Check if the response is successful
+                if (response.getStatusCode().is2xxSuccessful() && response.getBody() != null) {
+                    InventoryResponse inventoryResponse = response.getBody();
+                    log.info("Inventory updated - SkuCode: {}, Quantity: {}", 
+                            inventoryResponse.skuCode(), 
+                            inventoryResponse.quantity()
+                    );
 
-                return true;
+                    // Logic to send message to RabbitMQ added here
+                    OrderPlacedEvent orderPlacedEvent = new OrderPlacedEvent(order.getOrderNumber(), orderRequest.userDetails().email());
+                    log.info("Start - Sending OrderPlacedEvent {} to RabbitMQ queue order-placed", orderPlacedEvent);
+                    rabbitTemplate.convertAndSend("order-placed", orderPlacedEvent);
+                    log.info("End - Sending OrderPlacedEvent {} to RabbitMQ queue order-placed", orderPlacedEvent);
+
+                    return true;
+                } else {
+                    log.error("Failed to update inventory. Status: {}", response.getStatusCode());
+                    return false;
+                }
             } else {
-                log.error("Failed to update inventory. Status: {}", response.getStatusCode());
+                log.warn("Product with skuCode {} is out of stock", orderRequest.skuCode());
                 return false;
             }
-        } else {
-            log.warn("Product with skuCode {} is out of stock", orderRequest.skuCode());
+        } catch (Exception e) {
+            log.error("Error occurred while processing order: {}", e.getMessage(), e);
             return false;
         }
-    } catch (Exception e) {
-        log.error("Error occurred while processing order: {}", e.getMessage(), e);
-        return false;
     }
-}
 }

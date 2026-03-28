@@ -2,25 +2,18 @@ package com.techie.microservices.order.client;
 
 import com.techie.microservices.order.external.dto.InventoryRequest;
 import com.techie.microservices.order.external.dto.InventoryResponse;
-import groovy.util.logging.Slf4j;
+import lombok.extern.slf4j.Slf4j;
 import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
 import io.github.resilience4j.retry.annotation.Retry;
-
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.service.annotation.GetExchange;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.web.service.annotation.PostExchange;
 
 @Slf4j
 public interface InventoryClient {
-
-    Logger log = LoggerFactory.getLogger(InventoryClient.class);
 
     @GetExchange("/api/inventory")
     @CircuitBreaker(name = "inventory", fallbackMethod = "fallbackMethod")
