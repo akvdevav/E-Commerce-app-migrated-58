@@ -30,14 +30,11 @@ public class NotificationService {
             messageHelper.setFrom("springshop@email.com");
             messageHelper.setTo(orderPlacedEvent.getEmail());
             messageHelper.setSubject("Spring Shop: Order Confirmation");
-            messageHelper.setText(String.format("""
-                    Hi,
-                    
-                    Thank you for your order. Your order number is %s.
-                    
-                    Best regards,
-                    Spring Shop Team
-                    """, orderPlacedEvent.getOrderNumber()));
+            String body = String.format(
+                    "Hi,%n%nThank you for your order. Your order number is %s.%n%nBest regards,%nSpring Shop Team",
+                    orderPlacedEvent.getOrderNumber()
+            );
+            messageHelper.setText(body);
         };
 
         try {
