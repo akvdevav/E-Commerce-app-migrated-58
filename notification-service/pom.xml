@@ -29,12 +29,13 @@
         </dependencies>
     </dependencyManagement>
 
+    <!-- Adjusted module paths to be relative to the current location (notification-service) -->
     <modules>
-        <module>api-gateway</module>
-        <module>inventory-service</module>
-        <module>notification-service</module>
-        <module>order-service</module>
-        <module>product-service</module>
+        <module>../api-gateway</module>
+        <module>../inventory-service</module>
+        <module>../notification-service</module>
+        <module>../order-service</module>
+        <module>../product-service</module>
     </modules>
 
     <build>
