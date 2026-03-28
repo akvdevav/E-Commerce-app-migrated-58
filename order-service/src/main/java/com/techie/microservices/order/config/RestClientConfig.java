@@ -8,10 +8,17 @@ import org.springframework.web.client.RestClient;
 import org.springframework.web.client.support.RestClientAdapter;
 import org.springframework.web.service.invoker.HttpServiceProxyFactory;
 
+/**
+ * Configuration for creating a type-safe {@link InventoryClient} using Spring's
+ * {@link RestClient} and {@link HttpServiceProxyFactory}.
+ *
+ * Provides a default URL in case the {@code inventory.service.url} property is
+ * not supplied, preventing placeholder resolution failures at startup.
+ */
 @Configuration
 public class RestClientConfig {
 
-    @Value("${inventory.service.url}")
+    @Value("${inventory.service.url:http://localhost:8081/api/inventory}")
     private String inventoryServiceUrl;
 
     @Bean

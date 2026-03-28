@@ -13,13 +13,13 @@ import org.springframework.web.servlet.function.ServerResponse;
 @Configuration
 public class Routes {
 
-    @Value("${product.service.url}")
+    @Value("${product.service.url:http://localhost:8082/api/product}")
     private String productServiceUrl;
 
-    @Value("${order.service.url}")
+    @Value("${order.service.url:http://localhost:8083/api/order}")
     private String orderServiceUrl;
 
-    @Value("${inventory.service.url}")
+    @Value("${inventory.service.url:http://localhost:8081/api/inventory}")
     private String inventoryServiceUrl;
 
     @Bean

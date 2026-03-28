@@ -10,8 +10,8 @@ import org.springframework.boot.autoconfigure.domain.EntityScan;
 @SpringBootApplication
 @EnableRabbit
 @EnableCaching
-@EnableJpaRepositories
-@EntityScan
+@EnableJpaRepositories(basePackages = "com.techie.microservices.order")
+@EntityScan(basePackages = "com.techie.microservices.order")
 public class OrderServiceApplication {
 
 	public static void main(String[] args) {

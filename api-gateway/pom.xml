@@ -23,10 +23,10 @@
     </properties>
 
     <dependencies>
-        <!-- Spring Cloud Gateway (MVC) -->
+        <!-- Spring Cloud Gateway (recommended for Spring Boot 3) -->
         <dependency>
             <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-starter-gateway-mvc</artifactId>
+            <artifactId>spring-cloud-starter-gateway</artifactId>
         </dependency>
 
         <!-- Spring Web (required for MVC gateway) -->
